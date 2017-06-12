@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Set;
@@ -15,6 +16,7 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
     private Button openBT;
+    private TextView tvcontent;
     private BluetoothAdapter mBluetoothAdapter;
     private static final int REQUEST_CODE = 0x01;
     @Override
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         openBT = (Button) findViewById(R.id.btn_open);
+        tvcontent = (TextView) findViewById(R.id.tvcontent);
         initBlueTooth();
         openBT.setOnClickListener(this);
     }
@@ -34,9 +37,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
          openBT.setEnabled(true);
+        //获取该设备的蓝牙的一些信息
         String name = mBluetoothAdapter.getName();
         String mac = mBluetoothAdapter.getAddress();
         Log.i(TAG, "initBlueTooth: bluetooth="+name+",mac="+mac);
+        //获取该设备的蓝牙的状态
         int state= mBluetoothAdapter.getState();
         Log.i(TAG, "initBlueTooth: state="+state);
         switch(state){
@@ -53,16 +58,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showToast("蓝牙正在关闭。。");
                 break;
         }
+        //获取该设备绑定的蓝牙设备
         Set<BluetoothDevice> bluetooths = mBluetoothAdapter.getBondedDevices();
         Log.i(TAG, "initBlueTooth:size== "+bluetooths.size());
         if(bluetooths.size()<=0){
             showToast("没有绑定的蓝牙设备");
             return;
         }
+        StringBuffer s= new StringBuffer();
         for(BluetoothDevice b:bluetooths){
             String n=b.getName();
             Log.i(TAG, "initBlueTooth: "+n);
+            s.append(n);
+            s.append("\n");
         }
+        tvcontent.setText(s.toString());
 
     }
 

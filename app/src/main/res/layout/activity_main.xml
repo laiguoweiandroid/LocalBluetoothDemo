@@ -21,5 +21,14 @@
         android:text="打开蓝牙"
         android:onClick="open_bluetooth"
         android:layout_below="@id/tvtitle"/>
+    <TextView
+        android:id="@+id/tvcontent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="绑定的蓝牙设备"
+        android:layout_below="@id/btn_open"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        />
 
 </RelativeLayout>
